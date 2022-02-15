@@ -1,4 +1,4 @@
-package ru.sobolev.spring_market.core.configs;
+package ru.sobolev.spring_market.cart.configs;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

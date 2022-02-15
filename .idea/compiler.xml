@@ -9,6 +9,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="front-service" />
         <module name="auth-service" />
+        <module name="cart-service" />
         <module name="api" />
         <module name="core-service" />
         <module name="gateway" />
@@ -19,6 +20,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="api" options="" />
       <module name="auth-service" options="-parameters" />
+      <module name="cart-service" options="-parameters" />
       <module name="core-service" options="-parameters" />
       <module name="front-service" options="-parameters" />
       <module name="gateway" options="-parameters" />

@@ -7,7 +7,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.sobolev.spring_market.core.dto.ProductDto;
+import ru.sobolev.spring_market.api.dto.ProductDto;
 import ru.sobolev.spring_market.core.entities.Product;
 import ru.sobolev.spring_market.core.repositories.ProductsRepository;
 import ru.sobolev.spring_market.core.repositories.specifications.ProductsSpecifications;

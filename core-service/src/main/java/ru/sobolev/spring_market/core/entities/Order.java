@@ -43,4 +43,11 @@ public class Order {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    public Order(String username, int totalPrice, String address, String phone) {
+        this.username = username;
+        this.totalPrice = totalPrice;
+        this.address = address;
+        this.phone = phone;
+    }
 }

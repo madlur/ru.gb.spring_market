@@ -1,15 +1,15 @@
-package ru.sobolev.spring_market.core.controllers;
+package ru.sobolev.spring_market.cart.controllers;
 
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import ru.sobolev.spring_market.core.dto.Cart;
-import ru.sobolev.spring_market.core.services.CartService;
-import ru.sobolev.spring_market.core.services.ProductsService;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
+import ru.sobolev.spring_market.api.dto.Cart;
+import ru.sobolev.spring_market.api.dto.CartDto;
+import ru.sobolev.spring_market.api.dto.ProductDto;
 import ru.sobolev.spring_market.api.dto.StringResponse;
+import ru.sobolev.spring_market.cart.converters.CartConverter;
+import ru.sobolev.spring_market.cart.services.CartService;
 
 import java.security.Principal;
 
@@ -18,14 +18,22 @@ import java.security.Principal;
 @RequiredArgsConstructor
 public class CartsController {
     private final CartService cartService;
-    private final ProductsService productsService;
+    private final RestTemplate restTemplate;
+    private final CartConverter cartConverter;
+
+//    @GetMapping
+//    public CartDto getCartForOrder (@RequestParam String username){
+//        String cartKey = cartService.getCartUuidFromSuffix(username);
+//        return cartConverter.cartToDto(cartService.getCurrentCart(cartKey));
+//    }
+//    @GetMapping("/clear")
+//    public void clearCart(@RequestParam String username){
+//        String cartKey = cartService.getCartUuidFromSuffix(username);
+//        cartService.clearCart(cartKey);
+//    }
 
     @GetMapping("/{uuid}")
-    public Cart getCart(Principal principal, @PathVariable String uuid) {
-        String username = null;
-        if (principal != null) {
-            username = principal.getName();
-        }
+    public Cart getCart(@RequestHeader(required = false) String username, @PathVariable String uuid) {
         return cartService.getCurrentCart(getCurrentCartUuid(username, uuid));
     }
 
@@ -35,12 +43,9 @@ public class CartsController {
     }
 
     @GetMapping("/{uuid}/add/{productId}")
-    public void add(Principal principal, @PathVariable String uuid, @PathVariable Long productId) {
-        String username = null;
-        if (principal != null) {
-            username = principal.getName();
-        }
-        cartService.addToCart(getCurrentCartUuid(username, uuid), productId);
+    public void add(@RequestHeader(required = false) String username, @PathVariable String uuid, @PathVariable Long productId) {
+        ProductDto productDto = restTemplate.getForObject("http://localhost:5555/core/api/v1/products/" + productId, ProductDto.class);
+        cartService.addToCart(getCurrentCartUuid(username, uuid), productDto);
     }
 
     @GetMapping("/{uuid}/decrement/{productId}")

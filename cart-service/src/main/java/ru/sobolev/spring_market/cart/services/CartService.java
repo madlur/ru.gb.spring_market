@@ -1,12 +1,12 @@
-package ru.sobolev.spring_market.core.services;
+package ru.sobolev.spring_market.cart.services;
 
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-import ru.sobolev.spring_market.core.dto.Cart;
-import ru.sobolev.spring_market.core.entities.Product;
+import ru.sobolev.spring_market.api.dto.Cart;
+import ru.sobolev.spring_market.api.dto.ProductDto;
 import ru.sobolev.spring_market.api.exceptions.ResourceNotFoundException;
 
 import java.util.UUID;
@@ -15,7 +15,6 @@ import java.util.function.Consumer;
 @Service
 @RequiredArgsConstructor
 public class CartService {
-    private final ProductsService productsService;
     private final RedisTemplate<String, Object> redisTemplate;
 
     @Value("${utils.cart.prefix}")
@@ -33,15 +32,11 @@ public class CartService {
         if (!redisTemplate.hasKey(cartKey)) {
             redisTemplate.opsForValue().set(cartKey, new Cart());
         }
-        Object object = redisTemplate.opsForValue().get(cartKey);
-        return (Cart) object;
+        return (Cart) redisTemplate.opsForValue().get(cartKey);
     }
 
-    public void addToCart(String cartKey, Long productId) {
-        Product product = productsService.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Невозможно добавить продукт в корзину. Продукт не найдет, id: " + productId));
-        execute(cartKey, c -> {
-            c.add(product);
-        });
+    public void addToCart(String cartKey, ProductDto productDto) {
+        execute(cartKey, c -> c.add(productDto));
     }
 
     public void clearCart(String cartKey) {

@@ -1,6 +1,5 @@
-package ru.sobolev.spring_market.core.dto;
+package ru.sobolev.spring_market.api.dto;
 
-import ru.sobolev.spring_market.core.entities.Product;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -31,11 +30,11 @@ public class Cart {
         this.totalPrice = totalPrice;
     }
 
-    public void add(Product product) {
-        if (add(product.getId())) {
+    public void add(ProductDto productDto) {
+        if (add(productDto.getId())) {
             return;
         }
-        items.add(new OrderItemDto(product));
+        items.add(new OrderItemDto(productDto));
         recalculate();
     }
 
@@ -99,4 +98,5 @@ public class Cart {
         recalculate();
         another.clear();
     }
+
 }
