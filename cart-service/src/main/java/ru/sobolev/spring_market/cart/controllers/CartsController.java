@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import ru.sobolev.spring_market.api.dto.Cart;
-import ru.sobolev.spring_market.api.dto.CartDto;
 import ru.sobolev.spring_market.api.dto.ProductDto;
 import ru.sobolev.spring_market.api.dto.StringResponse;
 import ru.sobolev.spring_market.cart.converters.CartConverter;
@@ -21,16 +20,6 @@ public class CartsController {
     private final RestTemplate restTemplate;
     private final CartConverter cartConverter;
 
-//    @GetMapping
-//    public CartDto getCartForOrder (@RequestParam String username){
-//        String cartKey = cartService.getCartUuidFromSuffix(username);
-//        return cartConverter.cartToDto(cartService.getCurrentCart(cartKey));
-//    }
-//    @GetMapping("/clear")
-//    public void clearCart(@RequestParam String username){
-//        String cartKey = cartService.getCartUuidFromSuffix(username);
-//        cartService.clearCart(cartKey);
-//    }
 
     @GetMapping("/{uuid}")
     public Cart getCart(@RequestHeader(required = false) String username, @PathVariable String uuid) {
@@ -76,11 +65,7 @@ public class CartsController {
     }
 
     @GetMapping("/{uuid}/merge")
-    public void merge(Principal principal, @PathVariable String uuid) {
-        String username = null;
-        if (principal != null) {
-            username = principal.getName();
-        }
+    public void merge(@RequestHeader String username, @PathVariable String uuid) {
         cartService.merge(
                 getCurrentCartUuid(username, null),
                 getCurrentCartUuid(null, uuid)
