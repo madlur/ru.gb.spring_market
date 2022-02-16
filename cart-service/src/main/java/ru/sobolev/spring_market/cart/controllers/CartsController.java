@@ -4,8 +4,9 @@ package ru.sobolev.spring_market.cart.controllers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
-import ru.sobolev.spring_market.api.dto.Cart;
-import ru.sobolev.spring_market.api.dto.ProductDto;
+import ru.sobolev.spring_market.api.carts.CartDto;
+import ru.sobolev.spring_market.cart.models.Cart;
+import ru.sobolev.spring_market.api.core.ProductDto;
 import ru.sobolev.spring_market.api.dto.StringResponse;
 import ru.sobolev.spring_market.cart.converters.CartConverter;
 import ru.sobolev.spring_market.cart.services.CartService;
@@ -22,8 +23,8 @@ public class CartsController {
 
 
     @GetMapping("/{uuid}")
-    public Cart getCart(@RequestHeader(required = false) String username, @PathVariable String uuid) {
-        return cartService.getCurrentCart(getCurrentCartUuid(username, uuid));
+    public CartDto getCart(@RequestHeader(required = false) String username, @PathVariable String uuid) {
+        return cartConverter.modelToDto(cartService.getCurrentCart(getCurrentCartUuid(username, uuid)));
     }
 
     @GetMapping("/generate")
@@ -34,7 +35,7 @@ public class CartsController {
     @GetMapping("/{uuid}/add/{productId}")
     public void add(@RequestHeader(required = false) String username, @PathVariable String uuid, @PathVariable Long productId) {
         ProductDto productDto = restTemplate.getForObject("http://localhost:5555/core/api/v1/products/" + productId, ProductDto.class);
-        cartService.addToCart(getCurrentCartUuid(username, uuid), productDto);
+        cartService.addToCart(getCurrentCartUuid(username, uuid), productId);
     }
 
     @GetMapping("/{uuid}/decrement/{productId}")

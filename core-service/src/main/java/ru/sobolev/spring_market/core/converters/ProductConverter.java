@@ -2,7 +2,7 @@ package ru.sobolev.spring_market.core.converters;
 
 
 import org.springframework.stereotype.Component;
-import ru.sobolev.spring_market.api.dto.ProductDto;
+import ru.sobolev.spring_market.api.core.ProductDto;
 import ru.sobolev.spring_market.core.entities.Product;
 
 @Component

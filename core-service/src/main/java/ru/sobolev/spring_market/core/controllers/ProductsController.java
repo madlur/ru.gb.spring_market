@@ -3,7 +3,7 @@ package ru.sobolev.spring_market.core.controllers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
-import ru.sobolev.spring_market.api.dto.ProductDto;
+import ru.sobolev.spring_market.api.core.ProductDto;
 import ru.sobolev.spring_market.api.exceptions.ResourceNotFoundException;
 import ru.sobolev.spring_market.core.converters.ProductConverter;
 import ru.sobolev.spring_market.core.entities.Product;

@@ -4,7 +4,7 @@ package ru.sobolev.spring_market.core.converters;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.jaxb.SpringDataJaxb;
 import org.springframework.stereotype.Component;
-import ru.sobolev.spring_market.core.dto.OrderDto;
+import ru.sobolev.spring_market.api.core.OrderDto;
 import ru.sobolev.spring_market.core.entities.Order;
 
 import java.util.stream.Collectors;

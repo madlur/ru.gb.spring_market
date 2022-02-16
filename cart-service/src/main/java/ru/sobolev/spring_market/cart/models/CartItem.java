@@ -1,13 +1,15 @@
-package ru.sobolev.spring_market.api.dto;
+package ru.sobolev.spring_market.cart.models;
 
-public class OrderItemDto {
+import ru.sobolev.spring_market.api.core.ProductDto;
+
+public class CartItem {
     private Long productId;
     private String productTitle;
     private int quantity;
     private int pricePerProduct;
     private int price;
 
-    public OrderItemDto(ProductDto product) {
+    public CartItem(ProductDto product) {
         this.productId = product.getId();
         this.productTitle = product.getTitle();
         this.quantity = 1;
@@ -15,7 +17,7 @@ public class OrderItemDto {
         this.price = product.getPrice();
     }
 
-    public OrderItemDto(Long id, String title, Integer quantity, Integer pricePerProduct, Integer price) {
+    public CartItem(Long id, String title, Integer quantity, Integer pricePerProduct, Integer price) {
         this.productId = id;
         this.productTitle = title;
         this.quantity = quantity;
@@ -68,6 +70,6 @@ public class OrderItemDto {
         this.price = price;
     }
 
-    public OrderItemDto() {
+    public CartItem() {
     }
 }

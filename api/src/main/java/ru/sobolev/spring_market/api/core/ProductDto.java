@@ -1,4 +1,4 @@
-package ru.sobolev.spring_market.api.dto;
+package ru.sobolev.spring_market.api.core;
 
 
 public class ProductDto {
