@@ -1,15 +1,12 @@
 server:
-  port: 8189
+  port: 8155
   servlet:
-    context-path: /web-market-core
-utils:
-  cart:
-    prefix: SPRING_WEB_
+    context-path: /web-market-recommendation
 spring:
   datasource:
     driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:mydatabase;MODE=PostgreSQL
-    username: sa
+    url: jdbc:h2:mem:mydatabase;MODE=MySQL
+    username: ser
     password:
   jpa:
     show-sql: true
@@ -22,7 +19,5 @@ spring:
       settings:
         web-allow-others: false
 integrations:
-  cart-service:
-    url: http://localhost:5555/cart
-  recommendation-service:
-    url: http://localhost:8155/recommendation
+  core-service:
+    url: http://localhost:8189/web-market-core

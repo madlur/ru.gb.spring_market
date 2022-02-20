@@ -13,7 +13,10 @@ import ru.sobolev.spring_market.core.repositories.ProductsRepository;
 import ru.sobolev.spring_market.core.repositories.specifications.ProductsSpecifications;
 import ru.sobolev.spring_market.api.exceptions.ResourceNotFoundException;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -58,5 +61,10 @@ public class ProductsService {
         product.setPrice(productDto.getPrice());
         product.setTitle(productDto.getTitle());
         return product;
+    }
+
+    public List<Product> getProductsIdFromList(List<Long> productsId) {
+        List<Product> products = productsId.stream().map(id -> findById(id).get()).collect(Collectors.toList());
+        return products;
     }
 }
