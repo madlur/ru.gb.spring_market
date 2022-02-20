@@ -8,6 +8,7 @@ import ru.sobolev.spring_market.api.core.OrderDetailsDto;
 import ru.sobolev.spring_market.core.entities.Order;
 import ru.sobolev.spring_market.core.entities.OrderItem;
 import ru.sobolev.spring_market.core.integrations.CartServiceIntegration;
+import ru.sobolev.spring_market.core.integrations.RecommendationServiceIntegration;
 import ru.sobolev.spring_market.core.repositories.OrdersRepository;
 import ru.sobolev.spring_market.api.exceptions.ResourceNotFoundException;
 
@@ -20,6 +21,7 @@ public class OrderService {
     private final OrdersRepository ordersRepository;
     private final CartServiceIntegration cartServiceIntegration;
     private final ProductsService productsService;
+    private final RecommendationServiceIntegration recommendationServiceIntegration;
 
     @Transactional
     public void createOrder(String username, OrderDetailsDto orderDetailsDto) {
@@ -41,6 +43,7 @@ public class OrderService {
                 }).collect(Collectors.toList());
         order.setItems(items);
         ordersRepository.save(order);
+        recommendationServiceIntegration.addProductToRecService(items.stream().map(i->i.getProduct().getId()).collect(Collectors.toList()));
         cartServiceIntegration.clearUserCart(username);
     }
 

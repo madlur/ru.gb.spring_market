@@ -10,6 +10,9 @@ import ru.sobolev.spring_market.core.entities.Product;
 import ru.sobolev.spring_market.core.services.ProductsService;
 import ru.sobolev.spring_market.core.validators.ProductValidator;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RestController
 @RequestMapping("/api/v1/products")
 @RequiredArgsConstructor
@@ -59,5 +62,10 @@ public class ProductsController {
     @DeleteMapping("/{id}")
     public void deleteById(@PathVariable Long id) {
         productsService.deleteById(id);
+    }
+
+    @PostMapping("/id_values")
+    public List<ProductDto> getProducts(@RequestBody List<Long> productsId){
+        return productsService.getProductsIdFromList(productsId).stream().map(productConverter::entityToDto).collect(Collectors.toList());
     }
 }

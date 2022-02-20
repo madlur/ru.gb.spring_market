@@ -7,6 +7,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import ru.sobolev.spring_market.api.exceptions.ResourceNotFoundException;
 import ru.sobolev.spring_market.cart.integrations.ProductServiceIntegration;
+import ru.sobolev.spring_market.cart.integrations.RecommendationServerIntegration;
 import ru.sobolev.spring_market.cart.models.Cart;
 import ru.sobolev.spring_market.api.core.ProductDto;
 
@@ -18,6 +19,7 @@ import java.util.function.Consumer;
 public class CartService {
     private final ProductServiceIntegration productServiceIntegration;
     private final RedisTemplate<String, Object> redisTemplate;
+    private final RecommendationServerIntegration recommendationServerIntegration;
 
     @Value("${utils.cart.prefix}")
     private String cartPrefix;
@@ -42,6 +44,7 @@ public class CartService {
         execute(cartKey, c -> {
             c.add(productDto);
         });
+        recommendationServerIntegration.addProductToRecommendationService(productId);
     }
 
     public void clearCart(String cartKey) {
