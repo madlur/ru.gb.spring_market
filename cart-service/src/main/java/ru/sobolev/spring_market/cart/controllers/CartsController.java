@@ -3,24 +3,18 @@ package ru.sobolev.spring_market.cart.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 import ru.sobolev.spring_market.api.carts.CartDto;
-import ru.sobolev.spring_market.cart.models.Cart;
-import ru.sobolev.spring_market.api.core.ProductDto;
 import ru.sobolev.spring_market.api.dto.StringResponse;
 import ru.sobolev.spring_market.cart.converters.CartConverter;
 import ru.sobolev.spring_market.cart.services.CartService;
 
-import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/v1/cart")
 @RequiredArgsConstructor
 public class CartsController {
     private final CartService cartService;
-    private final RestTemplate restTemplate;
     private final CartConverter cartConverter;
-
 
     @GetMapping("/{uuid}")
     public CartDto getCart(@RequestHeader(required = false) String username, @PathVariable String uuid) {
@@ -34,39 +28,26 @@ public class CartsController {
 
     @GetMapping("/{uuid}/add/{productId}")
     public void add(@RequestHeader(required = false) String username, @PathVariable String uuid, @PathVariable Long productId) {
-        ProductDto productDto = restTemplate.getForObject("http://localhost:5555/core/api/v1/products/" + productId, ProductDto.class);
         cartService.addToCart(getCurrentCartUuid(username, uuid), productId);
     }
 
     @GetMapping("/{uuid}/decrement/{productId}")
-    public void decrement(Principal principal, @PathVariable String uuid, @PathVariable Long productId) {
-        String username = null;
-        if (principal != null) {
-            username = principal.getName();
-        }
+    public void decrement(@RequestHeader(required = false) String username, @PathVariable String uuid, @PathVariable Long productId) {
         cartService.decrementItem(getCurrentCartUuid(username, uuid), productId);
     }
 
     @GetMapping("/{uuid}/remove/{productId}")
-    public void remove(Principal principal, @PathVariable String uuid, @PathVariable Long productId) {
-        String username = null;
-        if (principal != null) {
-            username = principal.getName();
-        }
+    public void remove(@RequestHeader(required = false) String username, @PathVariable String uuid, @PathVariable Long productId) {
         cartService.removeItemFromCart(getCurrentCartUuid(username, uuid), productId);
     }
 
     @GetMapping("/{uuid}/clear")
-    public void clear(Principal principal, @PathVariable String uuid) {
-        String username = null;
-        if (principal != null) {
-            username = principal.getName();
-        }
+    public void clear(@RequestHeader(required = false) String username, @PathVariable String uuid) {
         cartService.clearCart(getCurrentCartUuid(username, uuid));
     }
 
     @GetMapping("/{uuid}/merge")
-    public void merge(@RequestHeader String username, @PathVariable String uuid) {
+    public void merge(@RequestHeader(required = false) String username, @PathVariable String uuid) {
         cartService.merge(
                 getCurrentCartUuid(username, null),
                 getCurrentCartUuid(null, uuid)

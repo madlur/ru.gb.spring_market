@@ -1,27 +1,15 @@
 package ru.sobolev.spring_market.api.core;
 
+import java.math.BigDecimal;
 import java.util.List;
-
 
 public class OrderDto {
     private Long id;
     private String username;
     private List<OrderItemDto> items;
-    private Integer totalPrice;
+    private BigDecimal totalPrice;
     private String address;
     private String phone;
-
-    public OrderDto() {
-    }
-
-    public OrderDto(Long id, String username, List<OrderItemDto> items, Integer totalPrice, String address, String phone) {
-        this.id = id;
-        this.username = username;
-        this.items = items;
-        this.totalPrice = totalPrice;
-        this.address = address;
-        this.phone = phone;
-    }
 
     public Long getId() {
         return id;
@@ -47,11 +35,11 @@ public class OrderDto {
         this.items = items;
     }
 
-    public Integer getTotalPrice() {
+    public BigDecimal getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(Integer totalPrice) {
+    public void setTotalPrice(BigDecimal totalPrice) {
         this.totalPrice = totalPrice;
     }
 
@@ -68,6 +56,18 @@ public class OrderDto {
     }
 
     public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public OrderDto() {
+    }
+
+    public OrderDto(Long id, String username, List<OrderItemDto> items, BigDecimal totalPrice, String address, String phone) {
+        this.id = id;
+        this.username = username;
+        this.items = items;
+        this.totalPrice = totalPrice;
+        this.address = address;
         this.phone = phone;
     }
 }
