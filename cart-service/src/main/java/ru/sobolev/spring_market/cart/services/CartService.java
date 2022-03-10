@@ -40,10 +40,8 @@ public class CartService {
     }
 
     public void addToCart(String cartKey, Long productId) {
-        ProductDto productDto = productServiceIntegration.findById(productId).orElseThrow(()->new ResourceNotFoundException("Product DTO not found"));
-        execute(cartKey, c -> {
-            c.add(productDto);
-        });
+        ProductDto productDto = productServiceIntegration.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Невозможно добавить продукт в корзину. Продукт не найден. ID: " + productId));
+        execute(cartKey, c -> c.add(productDto));
         recommendationServerIntegration.addProductToRecommendationService(productId);
     }
 
