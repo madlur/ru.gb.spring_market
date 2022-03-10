@@ -1,4 +1,6 @@
 server:
+  error:
+    include-message: always
   port: 8191
   servlet:
     context-path: /web-market-cart

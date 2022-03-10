@@ -13,6 +13,7 @@
         <module name="api" />
         <module name="core-service" />
         <module name="gateway" />
+        <module name="recommendation-service" />
       </profile>
     </annotationProcessing>
   </component>
@@ -24,6 +25,7 @@
       <module name="core-service" options="-parameters" />
       <module name="front-service" options="-parameters" />
       <module name="gateway" options="-parameters" />
+      <module name="recommendation-service" options="-parameters" />
       <module name="ru.sobolev.spring_market" options="-parameters" />
     </option>
   </component>
