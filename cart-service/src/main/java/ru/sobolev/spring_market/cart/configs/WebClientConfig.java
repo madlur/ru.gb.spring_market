@@ -1,4 +1,4 @@
-package ru.sobolev.spring_market.core.configs;
+package ru.sobolev.spring_market.cart.configs;
 
 import io.netty.channel.ChannelOption;
 import io.netty.handler.timeout.ReadTimeoutHandler;
@@ -11,32 +11,33 @@ import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.netty.http.client.HttpClient;
 import reactor.netty.tcp.TcpClient;
-import ru.sobolev.spring_market.core.properties.CartServiceIntegrationProperties;
+import ru.sobolev.spring_market.cart.properties.CoreServiceIntegrationProperties;
+import ru.sobolev.spring_market.cart.properties.TimeoutsForCoreServiceIntegration;
 
 import java.util.concurrent.TimeUnit;
 
 @Configuration
 @EnableConfigurationProperties(
-        CartServiceIntegrationProperties.class
+        {CoreServiceIntegrationProperties.class, TimeoutsForCoreServiceIntegration.class}
 )
 @RequiredArgsConstructor
-public class AppConfig {
-private final CartServiceIntegrationProperties cartServiceConfigurationProperties;
+public class WebClientConfig {
 
+    private final CoreServiceIntegrationProperties coreServiceIntegrationProperties;
 
     @Bean
-    public WebClient cartServiceWebClient() {
+    public WebClient coreServiceWebClient() {
         TcpClient tcpClient = TcpClient
                 .create()
-                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, cartServiceConfigurationProperties.getConnectionTimeout())
+                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, coreServiceIntegrationProperties.getTimeouts().getConnectTimeout())
                 .doOnConnected(connection -> {
-                    connection.addHandlerLast(new ReadTimeoutHandler(cartServiceConfigurationProperties.getReadTimeout(), TimeUnit.MILLISECONDS));
-                    connection.addHandlerLast(new WriteTimeoutHandler(cartServiceConfigurationProperties.getWriteTimeout(), TimeUnit.MILLISECONDS));
+                    connection.addHandlerLast(new ReadTimeoutHandler(coreServiceIntegrationProperties.getTimeouts().getReadTimeout(), TimeUnit.MILLISECONDS));
+                    connection.addHandlerLast(new WriteTimeoutHandler(coreServiceIntegrationProperties.getTimeouts().getWriteTimeout(), TimeUnit.MILLISECONDS));
                 });
 
         return WebClient
                 .builder()
-                .baseUrl(cartServiceConfigurationProperties.getUrl())
+                .baseUrl(coreServiceIntegrationProperties.getUrl())
                 .clientConnector(new ReactorClientHttpConnector(HttpClient.from(tcpClient)))
                 .build();
     }

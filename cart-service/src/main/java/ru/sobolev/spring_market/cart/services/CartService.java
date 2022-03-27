@@ -5,10 +5,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import ru.sobolev.spring_market.api.core.ProductDto;
 import ru.sobolev.spring_market.api.exceptions.ResourceNotFoundException;
 import ru.sobolev.spring_market.cart.integrations.ProductServiceIntegration;
 import ru.sobolev.spring_market.cart.models.Cart;
-import ru.sobolev.spring_market.api.core.ProductDto;
 
 import java.util.UUID;
 import java.util.function.Consumer;

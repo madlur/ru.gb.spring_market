@@ -4,6 +4,7 @@ package ru.sobolev.spring_market.core.controllers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import ru.sobolev.spring_market.api.exceptions.ResourceNotFoundException;
 import ru.sobolev.spring_market.core.converters.OrderConverter;
 import ru.sobolev.spring_market.api.core.OrderDetailsDto;
 import ru.sobolev.spring_market.api.core.OrderDto;
@@ -29,5 +30,10 @@ public class OrdersController {
     public List<OrderDto> getCurrentUserOrders(@RequestHeader String username) {
         return orderService.findOrdersByUsername(username).stream()
                 .map(orderConverter::entityToDto).collect(Collectors.toList());
+    }
+
+    @GetMapping("/{id}")
+    public OrderDto getOrderById(@PathVariable Long id) {
+        return orderConverter.entityToDto(orderService.findById(id).orElseThrow(() -> new ResourceNotFoundException("ORDER 404")));
     }
 }

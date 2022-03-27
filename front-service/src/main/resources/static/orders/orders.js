@@ -1,4 +1,4 @@
-angular.module('market-front').controller('ordersController', function ($scope, $http) {
+angular.module('market-front').controller('ordersController', function ($scope, $http, $location) {
     const contextPath = 'http://localhost:5555/core/';
 
     $scope.loadOrders = function () {
@@ -6,6 +6,10 @@ angular.module('market-front').controller('ordersController', function ($scope, 
             .then(function (response) {
                 $scope.MyOrders = response.data;
             });
+    }
+
+    $scope.goToPay = function (orderId) {
+        $location.path('/order_pay/' + orderId);
     }
 
     $scope.loadOrders();

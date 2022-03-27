@@ -22,6 +22,10 @@
                 templateUrl: 'orders/orders.html',
                 controller: 'ordersController'
             })
+            .when('/order_pay/:orderId', {
+                templateUrl: 'order_pay/order_pay.html',
+                controller: 'orderPayController'
+            })
             .otherwise({
                 redirectTo: '/'
             });
@@ -72,7 +76,6 @@ angular.module('market-front').controller('indexController', function ($rootScop
                     $location.path('/');
                 }
             }, function errorCallback(response) {
-                alert(response.data.message)
             });
     };
 
