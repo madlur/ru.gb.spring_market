@@ -14,6 +14,7 @@ import ru.sobolev.spring_market.api.exceptions.ResourceNotFoundException;
 import ru.sobolev.spring_market.core.converters.ProductConverter;
 import ru.sobolev.spring_market.core.entities.Product;
 import ru.sobolev.spring_market.core.services.ProductsService;
+import ru.sobolev.spring_market.core.structure_patterns.ProxyPatternRealization;
 import ru.sobolev.spring_market.core.validators.ProductValidator;
 
 import java.util.List;
@@ -23,7 +24,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/v1/products")
 @RequiredArgsConstructor
 @Tag(name = "Продукты", description = "Методы работы с продуктами")
-public class ProductsController {
+public class ProductsController implements ProxyPatternRealization {
     private final ProductsService productsService;
     private final ProductConverter productConverter;
     private final ProductValidator productValidator;
