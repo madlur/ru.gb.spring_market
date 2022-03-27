@@ -7,6 +7,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.sobolev.spring_market.api.builder_pattern.ProductDtoBuilder;
 import ru.sobolev.spring_market.api.core.ProductDto;
 import ru.sobolev.spring_market.core.entities.Product;
 import ru.sobolev.spring_market.core.repositories.ProductsRepository;
@@ -66,5 +67,11 @@ public class ProductsService {
     public List<Product> getProductsIdFromList(List<Long> productsId) {
         List<Product> products = productsId.stream().map(id -> findById(id).get()).collect(Collectors.toList());
         return products;
+    }
+
+    public ProductDto addProduct(Product product){
+        ProductDtoBuilder builder = new ProductDtoBuilder();
+        productsRepository.save(product);
+        return builder.id(product.getId()).title(product.getTitle()).price(product.getPrice()).build();
     }
 }
